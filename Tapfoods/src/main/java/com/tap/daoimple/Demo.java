@@ -1,7 +1,8 @@
 package com.tap.daoimple;
 
-import com.tap.model.Menu;
 import java.util.List;
+
+import com.tap.model.Menu;
 
 public class Demo {
 

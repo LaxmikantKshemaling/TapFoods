@@ -16,36 +16,34 @@ body {
 }
 
 .container {
-    max-width: 400px; /* Reduced max-width to make the container smaller */
+    max-width: 360px; /* Adjusted for mobile view */
     margin: 50px auto;
     padding: 20px;
-    border-radius: 5px;
-    background-color: transparent;
+    border-radius: 10px; /* Rounded corners for a softer look */
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Added shadow for depth */
 }
 
 h1 {
-    color: black;
-    display: inline-block;
-    margin-right: 20px;
+    color: #333; /* Dark color for better readability */
     margin-top: 0;
+    text-align: center;
 }
 
 input[type="text"],
 input[type="password"] {
-    width: calc(100% - 22px);
-    padding: 10px; /* Reduced padding */
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 2px solid #ccc;
-    outline: none;
-    
-    transition: border-bottom-color 0.3s ease;
-    font-size: 14px; /* Reduced font size */
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0; /* Added margin between fields */
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Rounded corners for inputs */
+    font-size: 16px; /* Adjusted font size for better readability */
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-bottom-color: orange;
+    border-color: #ff5722; /* Color on focus */
+    outline: none;
 }
 
 .clearfix {
@@ -54,44 +52,51 @@ input[type="password"]:focus {
 }
 
 .loginbtn {
-    background-color: orange;
+    background-color: #ff5722; /* Orange color similar to Swiggy */
     color: white;
-    padding: 10px 50px; /* Reduced padding */
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px; /* Reduced font size */
+    font-size: 16px; /* Adjusted font size */
     transition: background-color 0.3s ease;
+    width: 100%; /* Full-width button */
 }
 
 .loginbtn:hover {
-    background-color: #ff7f00;
+    background-color: #e64a19; /* Darker shade on hover */
 }
 
 .terms {
-    font-size: 12px; /* Reduced font size */
+    font-size: 12px;
     color: #666;
     margin-top: 10px;
 }
 
 .top-right-img {
-    border-radius: 50%; /* Changed to 50% for a circular shape */
+    border-radius: 50%;
+    width: 60px; /* Adjusted size for mobile view */
+    height: 60px;
     float: right;
-    width: 80px; /* Reduced width */
-    height: auto;
-    margin-right: 10px; /* Adjusted margin */
-    margin-bottom: 10px; /* Adjusted margin */
+    margin-left: 10px;
 }
- </style>
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+</style>
 </head>
 <body>
 
 <div class="container">
     <h1>Login</h1>
     <a href="restaurant_details_page.html">
-        <img src="logoLoginime.png" alt="Food Image" class="top-right-img">
+        <img src="logoLoginime.png" alt="Logo" class="top-right-img">
     </a>
-    <pre><a href="SignUp.jsp" style="color: orange; text-decoration: none;">or create an account</a> </pre><!-- Make the text clickable -->
+    <pre><a href="SignUp.jsp" style="color: #ff5722; text-decoration: none; text-align: center; display: block;">or create an account</a></pre>
     
     <!-- Error message section -->
     <c:if test="${not empty errorMessage}">
@@ -102,18 +107,15 @@ input[type="password"]:focus {
     
     <form action="login" method="post">
         <div class="form-group">
-            <div>
-                <input type="text" name="username" placeholder="User Name" required>
-            </div>
-            <div>
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
+            <input type="text" name="username" placeholder="User Name" required>
+            <input type="password" name="password" placeholder="Password" required>
         </div>
         <div class="clearfix">
             <button type="submit" class="loginbtn">LOGIN</button>
             <p class="terms">By clicking on Login, I accept the Terms & Conditions & Privacy Policy</p>
         </div>
     </form>
-</div> 
+</div>
+
 </body>
 </html>

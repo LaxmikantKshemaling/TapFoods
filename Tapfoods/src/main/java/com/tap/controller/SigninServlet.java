@@ -15,7 +15,7 @@ import com.tap.daoimple.UserDAOImple;
 import com.tap.model.User;
 
 @WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+public class SigninServlet extends HttpServlet {
 
     private UserDAO userDAO;
 
@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             // If the username or password is invalid, set an error message attribute and forward to login.jsp
             request.setAttribute("errorMessage", "Invalid username or password");
-            RequestDispatcher dispatcher = request.getRequestDispatcher("Login.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("Signin.jsp");
             dispatcher.forward(request, response);
         }
     }

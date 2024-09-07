@@ -11,7 +11,9 @@ public class OrderTable {
     private String modeOfPayment; // Mode of payment for the order
     private String status; // Status of the order (e.g., pending, delivered)
     private Date orderDate; // Timestamp representing the date and time when the order was placed
-    
+    private String address; // Address where the order is to be delivered
+    private String phoneNo; // Phone number associated with the order
+
     // Default constructor
     public OrderTable() {
         // Default constructor
@@ -19,7 +21,7 @@ public class OrderTable {
 
     // Parameterized constructor with all fields
     public OrderTable(int orderTableId, int restaurantId, int userId, double totalAmount, String modeOfPayment,
-            String status, Date orderDate) {
+            String status, Date orderDate, String address, String phoneNo) {
         super();
         this.orderTableId = orderTableId;
         this.restaurantId = restaurantId;
@@ -28,6 +30,8 @@ public class OrderTable {
         this.modeOfPayment = modeOfPayment;
         this.status = status;
         this.orderDate = orderDate;
+        this.address = address;
+        this.phoneNo = phoneNo;
     }
 
     // Getter and setter methods for private variables
@@ -87,11 +91,27 @@ public class OrderTable {
         this.orderDate = orderDate;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
     // Overriding toString method to display order information
     @Override
     public String toString() {
         return "OrderTable [orderTableId=" + orderTableId + ", restaurantId=" + restaurantId + ", userId=" + userId
                 + ", totalAmount=" + totalAmount + ", modeOfPayment=" + modeOfPayment + ", status=" + status
-                + ", orderDate=" + orderDate + "]";
+                + ", orderDate=" + orderDate + ", address=" + address + ", phoneNo=" + phoneNo + "]";
     }
 }

@@ -1,6 +1,7 @@
-	`<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List, com.tap.model.Restaurant" %>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,79 +12,114 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
-
 .top-bar {
-    border: 1px solid #ccc;
-    background-color: #fff;
-    padding: 25px 20px;
-    display: flex;
-    justify-content: space-between; /* Centering search bar and pushing icon bar to the right */
-    align-items: center;
-    width: 100%;
-    z-index: 999;
-    position: fixed;
+        border-bottom: 1px solid #ccc;
+        background-color: #fff;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        z-index: 999;
+        position: fixed;
+        top: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: sticky;
     top: 0;
-}
+    z-index: 1000;
+    }
 
-.logo {
-    width: 40px;
-    transition: opacity 0.3s ease;
-}
-.search-bar {
-    width: 200px;
-    background-color: #fff;
-    border: none;
-    transition: background-color 0.3s ease;
-    position: relative;
-    border-radius: 20px;
-    padding: 8px 30px 8px 40px;
-    cursor: pointer;
-}
+    .profile-modal .modal-dialog {
+        max-width: 300px;
+    }
+    
+    .profile-modal .modal-content {
+        border-radius: 10px;
+    }
 
-.search-bar input {
-    background-color: transparent;
-    border: none;
-    width: 100%;
-    color: #000;
-}
+    .profile-modal .modal-header {
+        border-bottom: none;
+    }
 
+    .profile-modal .modal-body {
+        padding: 15px;
+    }
 
-.search-bar i {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #000;
-    transition: color 0.3s ease;
-}
+    .profile-modal .modal-body a {
+        display: block;
+        padding: 10px;
+        color: #007bff;
+        text-decoration: none;
+        font-size: 16px;
+    }
 
-.search-bar:hover i,
-.search-bar:focus i {
-    color: #ff9933;
-}
+    .profile-modal .modal-body a:hover {
+        text-decoration: underline;
+    }
 
-.icon-bar {
-    display: flex;
-}
+    .icon-bar a {
+        margin-left: 15px;
+        color: #333;
+        text-decoration: none;
+        font-size: 16px;
+        position: relative;
+    }
 
-.icon-bar a {
-    margin-right: 10px;
-    color: rgba(0, 0, 0, 0.918);
-    text-decoration: none;
-    border: none;
-    padding: 5px;
-}
-.icon-bar a:hover {
-    color: #ec7a08;
-}
+    .icon-bar a:hover {
+        color: #ff9933;
+    }
 
-.icon-bar a[href="profile.jsp"] {
-    font-size: 20px; /* Increase font size */
-}
+    .icon-bar .profile-icon {
+        position: relative;
+    }
 
-.icon-bar a[href="profile.jsp"] i {
-    font-size: 25px; /* Increase icon size */
-}
+    .icon-bar .profile-icon .fa {
+        font-size: 18px;
+    }
+
+    .top-bar img.logo {
+        width: 40px;
+        margin-right: 15px;
+    }
+
+    .search-bar {
+        width: 300px;
+        position: relative;
+        background-color: #fff;
+        border-radius: 20px;
+        padding: 8px 40px 8px 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-bar input {
+        width: 100%;
+        border: none;
+        outline: none;
+    }
+
+    .search-bar i {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #555;
+    }
+
+    .icon-bar {
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-bar a {
+        margin-left: 15px;
+        color: #333;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+    .icon-bar a:hover {
+        color: #ff9933;
+    }
 .display-bar {
     position: relative;
     background: linear-gradient(to bottom, #f3f2f5, #e4bff4);
@@ -121,6 +157,47 @@
   margin-right: 10px; /* Adjust as needed */
 }
 
+
+/* Basic styling */
+        .itemmenu-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .itemmenu-bar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .scroll-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .item {
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .item img:hover {
+            transform: scale(1.05);
+        }
+
+        .item a {
+            text-decoration: none;
+            color: inherit;
+        }
+
 .direction-buttons {
   float: right; /* Align buttons to the right */
   margin-top:-45px ;
@@ -138,6 +215,18 @@
 
 .direction-buttons .btn:hover {
   color: #007bff; /* Change color on hover */
+}
+.scroll-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0 20px;
+    border-bottom: 2px solid transparent;
+    max-width: 100%;
+    overflow-y: hidden;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 .Itemmenu-bar {
@@ -202,18 +291,6 @@
   background-color: white; /* Add white background */
 }
 
-label {
-  display: block; /* Display the label as a block element */
-  font-size: 16px; /* Set the font size for the labels */
-}        
-.restaurant-row {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap; /* Allow items to wrap to the next line */
-  margin-bottom: 20px;
-}
-
-
 .img {
   width: 180px;
   height: 180px; /* Ensure all images have the same height */
@@ -222,223 +299,410 @@ label {
   background-color: white; /* Add white background */
 }
 
-.restaurant-card {
-  width: calc(33.33% - 20px); /* Adjusted width */
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  overflow: hidden;
-  box-sizing: border-box; /* Ensure border and padding are included in the width calculation */
-  margin-bottom: 20px; /* Add margin between cards */
-}
+ /* Restaurant List */
+    .restaurant-heading {
+        margin: 30px 20px 10px;
+        font-size: 30px;
+        font-weight: bold;
+        color: #333;
+    }
 
-.restaurant-card img {
-  width: 100%;
-  height: auto;
-}
+    .restaurant-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 20px;
+    }
 
-.restaurant-info {
-  padding: 10px;
-}
+    .restaurant-card {
+        width: calc(33.33% - 20px);
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
 
-.restaurant-info h3 {
-  margin: 0;
-}
+    .restaurant-card:hover {
+        transform: translateY(-5px);
+    }
 
-.restaurant-info p {
-  margin: 5px 0;
-}
+    .restaurant-card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
 
-.restaurant-info a {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-}
+    .restaurant-info {
+        padding: 15px;
+    }
 
-.restaurant-info a:hover {
-  background-color: #0056b3;
-}
+    .restaurant-info h3 {
+        margin: 0;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .restaurant-info p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #777;
+    }
+
+    .restaurant-info .rating {
+        margin: 10px 0;
+    }
+
+    .restaurant-info .rating .fa-star {
+        color: #ffcc00;
+    }
+
+    .restaurant-info a {
+        display: inline-block;
+        padding: 8px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    .restaurant-info a:hover {
+        background-color: #0056b3;
+    }
 
 .checked {
   color:rgb(238, 156, 5); /* Change the color to gold */
 }
+
+
+.alert-modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 20px; /* Adjust top position */
+    right: 20px; /* Adjust right position */
+    width: 200px; /* Width of the alert */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.alert-content {
+    padding: 15px;
+    font-size: 14px;
+}
+
+.close-alert {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    float: right;
+    cursor: pointer;
+}
+
+.close-alert:hover {
+    color: #ff0000; /* Change color on hover */
+}
+
+.modal-body a {
+    color: black !important; /* Use !important to override other styles */
+    text-decoration: none !important; /* Remove underline */
+}
+
+.modal-body a:hover {
+    text-decoration: underline !important; /* Optional: Add underline on hover */
+}
+
+.modal-header .modal-title {
+    color: #FF5722 !important; /* Bhagava color with !important */
+}
+
+
+
     </style>
 
 </head>
 <body>
 
-
-<form action="#" method="GET">
+<form action="home" method="GET">
     <div class="top-bar">
-        <img src="WhatsApp Image 2024-03-15 at 2.11.19 PM.jpeg" alt="Logo" class="logo" style="width: 40px; margin-right: -262px;">
-        <img src="tapfood.png" alt="Logo" class="logo" style="width: 80px; margin-right:5px;">
+        <img src="WhatsApp Image 2024-03-15 at 2.11.19 PM.jpeg" alt="Logo" class="logo" style="width: 40px;"> 
+        
         <div class="search-bar">
-            <input type="text" placeholder="Search...">
+            <input type="text" name="search" placeholder="Search...">
             <i class="fa fa-search"></i>
         </div>
+        
+        
+        <div class="alert-modal" id="alertModal">
+        <div class="alert-content">
+            <button class="close-alert" id="closeAlert">&times;</button>
+            <h4>Sign In Alert</h4>
+            <p>This is a small alert message or notification.</p>
+        </div>
+    </div>
         <div class="icon-bar">
-            <a href="Login.jsp" class="btn"><i class="fa fa-user-o"></i> Sign In</a>
-            <a href="SignUp.jsp" class="btn"><i class="fa fa-user"></i> Sign Up</a>
-            <a href="cart.jsp" class="btn"><i class="fa fa-cart-plus"></i> Cart</a>
-            <a href="#" class="btn"><i class="fa fa-user-circle"></i> Profile</a> <!-- New Profile link -->
+            <a href="Signin.jsp"><i class="fa fa-sign-in"></i> Sign In</a>
+            <a href="SignUp.jsp"><i class="fa fa-user-plus"></i> Sign Up</a>
+            <a href="cart.jsp"><i class="fa fa-shopping-cart"></i> Cart</a>
+            <a href="#" class="profile-icon"    id="accountName" data-toggle="modal" data-target="#profileModal"><i class="fa fa-user"></i> Profile</a>
         </div>
     </div>
 </form>
 
+<!-- Profile Modal -->
+<div class="modal fade profile-modal" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a href="Profil.jsp">My Profile</a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="display-bar">
-    <!-- Additional border around the heading -->
     <div class="heading-border">
-        <h1 style="font-size: 40px; font-weight: bold; text-align: right;"> <!-- Align text to the right -->
-            Order Food <br> <!-- Added line breaks for better spacing -->
-            Online in <br> <!-- Added line breaks for better spacing -->
-            Bangaluru
+        <h1 style="font-size: 40px; font-weight: bold; text-align: right;">
+            Order Food <br>
+            Online in <br>
+            Bangalore
         </h1>
     </div>
-    <!-- Image on the right side -->
     <img id="image" src="without background image.avif" alt="Right Image" class="right-image">
 </div>
 <br>
 <br>
-
-<div class="Itemenu-heading">
-  <h3>&nbsp;&nbsp;&nbsp;&nbsp;What's on your mind?</h3>
-  <div class="direction-buttons">
-    <a href="#" class="btn btn-link"><i class="fa fa-angle-left"></i></a>
-    <a href="#" class="btn btn-link"><i class="fa fa-angle-right"></i></a>
-  </div>
+<div class="itemmenu-heading">
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;What's on your mind?</h3>
+    <div class="direction-buttons">
+        <a id="scroll-left" class="btn btn-link"><i class="fa fa-angle-left"></i></a>
+        <a id="scroll-right" class="btn btn-link"><i class="fa fa-angle-right"></i></a>
+    </div>
 </div>
+<%
+ String category =request.getParameter("category");
+%>
 <div class="itemmenu-container">
-  <div class="Itemmenu-bar">
-  <div class="border-container">
-    <div class="scroll-wrapper">
-      <div class="item">
-        <a href="#">
-        <img src="Biryani_123.avif" alt="Biryani" class="img">
-      </a>
-      
-      </div>
-
-
-
-    <div class="item">
-      <a href="#">
-      <img src="Ice_Creams123.avif" alt="Ice_Creams" class="img">
-      </a>
-
+    <div class="itemmenu-bar">
+        <div class="scroll-wrapper">
+            <!-- Biryani -->
+            <div class="item" data-category="biryani">
+                <a href="menu?category=biryani" id="biryani-link">
+                    <img src="Biryani_123.avif" alt="Biryani" class="img">
+                </a>
+            </div>
+            <!-- Ice Cream -->
+            <div class="item" data-category="icecream">
+                <a href="menu?category=icecream" id="icecream-link">
+                    <img src="Ice_Creams123.avif" alt="Ice Cream" class="img">
+                </a>
+            </div>
+            <!-- Pasta -->
+            <div class="item" data-category="pasta">
+                <a href="menu?category=pasta" id="pasta-link">
+                    <img src="Pasta123.avif" alt="Pasta" class="img">
+                </a>
+            </div>
+            <!-- Rolls -->
+            <div class="item" data-category="rolls">
+                <a href="menu?category=rolls" id="rolls-link">
+                    <img src="Rolls123.avif" alt="Rolls" class="img">
+                </a>
+            </div>
+            <!-- Burger (fixed link) -->
+            <div class="item" data-category="burger">
+                <a href="menu?category=burger" id="burger-link">
+                    <img src="Burger123.avif" alt="Burger" class="img" id="burger-image">
+                </a>
+            </div>
+            <!-- Cakes -->
+            <div class="item" data-category="cakes">
+                <a href="menu?category=cakes" id="cakes-link">
+                    <img src="Cakes123.avif" alt="Cakes" class="img">
+                </a>
+            </div>
+            <!-- Kebabs (fix double question mark in link) -->
+            <div class="item" data-category="kebabs">
+                <a href="menu?category=kebabs" id="kebabs-link">
+                    <img src="Kebabs123.avif" alt="Kebabs" class="img">
+                </a>
+            </div>
+            <!-- Pure Veg -->
+            <div class="item" data-category="pureveg">
+                <a href="menu?category=pureveg" id="pureveg-link">
+                    <img src="Pure_Veg123.avif" alt="Pure Veg" class="img">
+                </a>
+            </div>
+        </div>
     </div>
-
-    <div class="item">
-      <a href="#">
-      <img src="Pasta123.avif" alt="Pasta" class="img">
-      </a>
-
-    </div>
-
-    <div class="item">
-      <a href="#">
-      <img src="Rolls123.avif" alt="Rolls" class="img">
-      </a>
-    </div>
-
-    <div class="item">
-      <a href="#">
-      <img src="Burger123.avif" alt="Biryani" class="img">
-    </a>
-    
-    </div>
-
-
-
-  <div class="item">
-    <a href="#">
-    <img src="Cakes123.avif" alt="Ice_Creams" class="img">
-    </a>
-
-  </div>
-
-
-  <div class="item">
-    <a href="#">
-    <img src="Kebabs123.avif" alt="Rolls" class="img">
-    </a>
-  </div>
-  <div class="item">
-    <a href="#">
-    <img src="Pure_Veg123.avif" alt="Biryani" class="img">
-  </a>
-  
-  </div>
-
-
-
-<div class="item">
-  <a href="#">
-  <img src="Ice_Creams123.avif" alt="Ice_Creams" class="img">
-  </a>
-
 </div>
 
-<div class="item">
-  <a href="#">
-  <img src="Pasta123.avif" alt="Pasta" class="img">
-  </a>
-
-</div>
-
-<div class="item">
-  <a href="#">
-  <img src="Rolls123.avif" alt="Rolls" class="img">
-  </a>
-</div>
-
-  </div>
-</div>
-<br>
-<br>
 
 <div class="restaurant-heading">
-  <h2>Top restaurant chains in Bangalore</h2>
+    <h2>Top restaurant chains in Bangalore</h2>
 </div>
-<br>
 <div class="restaurant-row">
-<%
-List<Restaurant> restaurants = (List<Restaurant>)request.getAttribute("restaurantList"); // Retrieve the list of restaurants from the request attributes
+    <% List<Restaurant> restaurants = (List<Restaurant>) request.getAttribute("restaurantList"); %>
+    <% if (restaurants != null && !restaurants.isEmpty()) { %>
+        <% for (Restaurant restaurant : restaurants) { %>
+            <div class="restaurant-card">
+                <a href="menu?restaurantId=<%= restaurant.getRestauranId() %>&restaurantName=<%= URLEncoder.encode(restaurant.getRestaurantName(), "UTF-8") %>&imagePath=<%= URLEncoder.encode(restaurant.getImagePath(), "UTF-8") %>">
+                    <img src="<%= request.getContextPath() + restaurant.getImagePath() %>" alt="Image of <%= restaurant.getRestaurantName() %>">
+                </a>
+               
+                
+                <div class="restaurant-info">
+                    <h3><%= restaurant.getRestaurantName() %></h3>
+                    <div class="rating">
+                        <span class="fa fa-star checked"></span>
+                        <p><%= restaurant.getRating() %> - <%= restaurant.getDeliveryTime() %> mins</p>
+                        <p><%= restaurant.getCuisineType() %></p>
+                        <p><%= restaurant.getAddress() %></p>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    <% } else { %>
+        <p>No restaurants available.</p>
+    <% } %>
+</div>
 
-if (restaurants != null && !restaurants.isEmpty()) { // Check if the restaurant list is not null and not empty
- 
-  for (Restaurant restaurant : restaurants) { // Loop through each restaurant in the list
-%>
-<div class="restaurant-card"> <!-- Start of restaurant card -->
-  <a href="menu?restaurantId=<%=restaurant.getRestauranId()%>"> <!-- Anchor tag starts here with a link to the menu page of the restaurant -->
-    <img src="<%=request.getContextPath() +restaurant.getImagePath()%>" alt="Image of <%=restaurant.getName()%>"> <!-- Display the image of the restaurant -->
-  </a> <!-- Anchor tag ends here -->
-  <div class="restaurant-info"> <!-- Start of restaurant information -->
-    <h3><%=restaurant.getName()%></h3> <!-- Display the name of the restaurant -->
-    <div class="rating"> <!-- Start of rating section -->
-      <span class="fa fa-star checked"></span> <!-- Display a star icon for rating -->
-      <p><%=restaurant.getRating()%> - <%=restaurant.getDeliveryTime()%>Mins</p> <!-- Display the rating and delivery time of the restaurant -->
-      <p><%=restaurant.getCuisineType()%></p> <!-- Display the cuisine type of the restaurant -->
-      <p><%=restaurant.getAddress()%></p> <!-- Display the address of the restaurant -->
-    </div> <!-- End of rating section -->
-  </div> <!-- End of restaurant information -->
-</div> <!-- End of restaurant card -->
-<%
-  }
-} else { // If there are no restaurants available
-%>
-<p>No restaurants available.</p> <!-- Display a message indicating no restaurants are available -->
-<%
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Scroll amount
+    var scrollAmount = 200;
+    
+    // Scroll left and right functionality
+    var scrollContainer = document.querySelector('.scroll-wrapper');
+    if (scrollContainer) {
+        document.getElementById('scroll-left').addEventListener('click', function(e) {
+            e.preventDefault();
+            scrollContainer.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        document.getElementById('scroll-right').addEventListener('click', function(e) {
+            e.preventDefault();
+            scrollContainer.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Navigation for burger category
+    document.getElementById('burger-link').addEventListener('click', function(event) {
+        event.preventDefault();
+        window.location.href = 'menu?category=burger';
+    });
+
+    document.getElementById('burger-image').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = "menu.jsp?category=burger";
+    });
+
+    // Update account name from localStorage
+    if (localStorage.getItem('profileName')) {
+        document.getElementById('accountName').innerText = localStorage.getItem('profileName');
+    }
+
+    // Confirm and handle profile edit
+    function confirmEditProfile() {
+        if (confirm("Do you want to edit your profile?")) {
+            // Create and show the edit profile modal
+            var editModal = document.createElement('div');
+            editModal.className = 'modal fade';
+            editModal.id = 'editProfileModal';
+            editModal.tabIndex = -1;
+            editModal.setAttribute('role', 'dialog');
+            editModal.setAttribute('aria-labelledby', 'editProfileModalLabel');
+            editModal.setAttribute('aria-hidden', 'true');
+
+            editModal.innerHTML = `
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editProfileModalLabel" style="color: #FF9933;">Edit Profile</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="editProfileForm">
+                                <div class="form-group">
+                                    <label for="name">Name:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary edit-profile-btn">Save</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(editModal);
+            $('#editProfileModal').modal('show');
+
+            // Handle form submission
+            $('#editProfileForm').on('submit', function(event) {
+                event.preventDefault();
+                var name = $('#name').val();
+                localStorage.setItem('profileName', name); // Save the name in localStorage
+                $('#accountName').text(name); // Update the account name on the main page
+                $('#editProfileModal').modal('hide');
+                // You can add an AJAX call here to save the changes to the server if needed
+            });
+        }
+    }
+
+    // Attach the confirmEditProfile function to an event if needed
+    // e.g., document.getElementById('editProfileButton').addEventListener('click', confirmEditProfile);
+});
+
+
+
+function loadMenu(category) {
+    // Load menu items dynamically when a category is clicked
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "MenuServlet?category=" + category, true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            document.getElementById("menuItems").innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
 }
-%>
-</div> <!-- End of restaurant row -->
+</script>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- Include Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

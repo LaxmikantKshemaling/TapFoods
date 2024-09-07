@@ -1,19 +1,17 @@
 package com.tap.model;
 
-import java.util.List;
-
 import com.tap.daoimple.RestaurantDAOImple; // Importing RestaurantDAOImple class
 
 public class Restaurant {
     
     // Declaring private instance variables
     private int restauranId; // Restaurant ID
-    private String name; // Restaurant name
+    private String restaurantName; // Restaurant name
     private String imagePath; // Path to the restaurant image
     private double rating; // Rating of the restaurant
     private int deliveryTime; // Delivery time of the restaurant
     private String cuisineType; // Type of cuisine offered by the restaurant
-    private  String Address; // Address of the restaurant
+    private String Address; // Address of the restaurant
     private boolean isActive; // Status of the restaurant (active or inactive)
     private int restaurantAdmin; // Admin ID of the restaurant
     
@@ -23,11 +21,11 @@ public class Restaurant {
     }
 
     // Parameterized constructor with all fields
-    public Restaurant(int restauranId, String name, String imagePath, double rating, int deliveryTime,
+    public Restaurant(int restauranId, String restaurantName, String imagePath, double rating, int deliveryTime,
             String cuisineType, String address, boolean isActive, int restaurantAdmin) {
         super();
         this.restauranId = restauranId;
-        this.name = name;
+        this.restaurantName = restaurantName;
         this.imagePath = imagePath;
         this.rating = rating;
         this.deliveryTime = deliveryTime;
@@ -46,12 +44,12 @@ public class Restaurant {
         this.restauranId = restauranId;
     }
 
-    public String getName() {
-        return name;
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 
     public String getImagePath() {
@@ -74,8 +72,8 @@ public class Restaurant {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(int deliveryTime) {
-        this.deliveryTime = deliveryTime;
+    public void setDeliveryTime(int deliveryTime2) {
+        this.deliveryTime = deliveryTime2;
     }
 
     public String getCuisineType() {
@@ -113,7 +111,7 @@ public class Restaurant {
     // Overriding toString method to display restaurant information
     @Override
     public String toString() {
-        return "Restaurant [restauranId=" + restauranId + ", name=" + name + ", imagePath=" + imagePath + ", rating="
+        return "Restaurant [restauranId=" + restauranId + ", restaurantName=" + restaurantName + ", imagePath=" + imagePath + ", rating="
                 + rating + ", deliveryTime=" + deliveryTime + ", cuisineType=" + cuisineType + ", Address=" + Address
                 + ", isActive=" + isActive + ", restaurantAdmin=" + restaurantAdmin + "]";
     }

@@ -6,25 +6,24 @@ public class Menu {
     private String name; // Name of the menu item
     private double price; // Price of the menu item
     private String description; // Description of the menu item
-    private String imagePath; // Path to the image of the menu item
+    private String menuimagePath; // Path to the image of the menu item
     private boolean isAvailable; // Availability status of the menu item
     private int restaurantId; // ID of the restaurant to which the menu item belongs
     private double rating; // Rating of the menu item
     
     // Default constructor
     public Menu() {
-        // TODO Auto-generated constructor stub
+        // Default constructor
     }
 
     // Parameterized constructor with all fields
-    public Menu(int menuId, String name, double price, String description, String imagePath, boolean isAvailable,
+    public Menu(int menuId, String name, double price, String description, String menuimagePath, boolean isAvailable,
             int restaurantId, double rating) {
-        super();
         this.menuId = menuId;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.imagePath = imagePath;
+        this.menuimagePath = menuimagePath; // Using menuimagePath variable
         this.isAvailable = isAvailable;
         this.restaurantId = restaurantId;
         this.rating = rating;
@@ -63,12 +62,12 @@ public class Menu {
         this.description = description;
     }
 
-    public String getImagePath() {
-        return imagePath;
+    public String getMenuimagePath() {
+        return menuimagePath; // Using menuimagePath variable
     }
 
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
+    public void setMenuimagePath(String menuimagePath) {
+        this.menuimagePath = menuimagePath; // Using menuimagePath variable
     }
 
     public boolean isAvailable() {
@@ -99,7 +98,7 @@ public class Menu {
     @Override
     public String toString() {
         return "Menu [menuId=" + menuId + ", name=" + name + ", price=" + price + ", description=" + description
-                + ", imagePath=" + imagePath + ", isAvailable=" + isAvailable + ", restaurantId=" + restaurantId
+                + ", menuimagePath=" + menuimagePath + ", isAvailable=" + isAvailable + ", restaurantId=" + restaurantId
                 + ", rating=" + rating + "]";
     }
 }

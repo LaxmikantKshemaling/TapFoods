@@ -9,8 +9,9 @@ public interface RestaurantDAO {
 	
 	void addRestaurant(Restaurant restaurant);
 	Restaurant getRestaurant(int restaurantId);
-	void updateRestaurant(Restaurant restaurant);
+	boolean updateRestaurant(Restaurant restaurant);
 	void deleteRestaurant(int restaurantId);
 	List<Restaurant> getAllRestaurants();
+	List<Restaurant> searchRestaurantsByrestaurantName(String restaurantName);
 
 }

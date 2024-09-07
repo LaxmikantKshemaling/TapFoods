@@ -13,27 +13,26 @@ import com.tap.util.DBConnectionUtil;
 
 public class OrderItemDAOImple implements OrderItemDAO {
 
-    @Override
-    public void addOrderItem(OrderItem orderItem) {
-        String sql = "INSERT INTO `orderitem` (`orderItemId`, `orderTableId`, `menuId`, `Quantity`, `Price`, `name`, `totalPrice`) VALUES (?,?,?,?,?,?,?)";
+	@Override
+	public void addOrderItem(OrderItem orderItem) {
+	    String sql = "INSERT INTO `orderitem` (`orderTableId`, `menuId`, `Quantity`, `Price`, `name`, `totalPrice`) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = DBConnectionUtil.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql)) {
+	    try (Connection connection = DBConnectionUtil.getConnection();
+	         PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            pstmt.setInt(1, orderItem.getOrderItemId());
-            pstmt.setInt(2, orderItem.getOrderTableId());
-            pstmt.setInt(3, orderItem.getMenuId());
-            pstmt.setInt(4, orderItem.getQuantity());
-            pstmt.setDouble(5, orderItem.getPrice());
-            pstmt.setString(6, orderItem.getName());
-            pstmt.setDouble(7, orderItem.getTotalPrice());
+	        pstmt.setInt(1, orderItem.getOrderTableId());
+	        pstmt.setInt(2, orderItem.getMenuId());
+	        pstmt.setInt(3, orderItem.getQuantity());
+	        pstmt.setDouble(4, orderItem.getPrice());
+	        pstmt.setString(5, orderItem.getName());
+	        pstmt.setDouble(6, orderItem.getTotalPrice());
 
-            pstmt.executeUpdate();
+	        pstmt.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
 
     @Override
     public OrderItem getOrderItem(int orderItemId) {
@@ -96,25 +95,26 @@ public class OrderItemDAOImple implements OrderItemDAO {
 
     @Override
     public List<OrderItem> getAllOrderItemsByOrderTable(int orderTableId) {
-        String sql = "SELECT * FROM `orderitem` WHERE `orderTableId` = ?";
-
+        String sql = "SELECT * FROM orderitem WHERE orderTableId = ?";
         List<OrderItem> orderItems = new ArrayList<>();
 
         try (Connection connection = DBConnectionUtil.getConnection();
-             PreparedStatement pstmt = connection.prepareStatement(sql);
-             ResultSet res = pstmt.executeQuery()) {
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-            while (res.next()) {
-                OrderItem orderItem = extractOrderItemFromResultSet(res);
-                orderItems.add(orderItem);
+            pstmt.setInt(1, orderTableId);
+            try (ResultSet res = pstmt.executeQuery()) {
+                while (res.next()) {
+                    OrderItem orderItem = extractOrderItemFromResultSet(res);
+                    orderItems.add(orderItem);
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return orderItems;
     }
+
 
     private OrderItem extractOrderItemFromResultSet(ResultSet res) throws SQLException {
         OrderItem orderItem = new OrderItem();
@@ -125,7 +125,7 @@ public class OrderItemDAOImple implements OrderItemDAO {
         orderItem.setQuantity(res.getInt("Quantity"));
         orderItem.setPrice(res.getDouble("Price"));
         orderItem.setName(res.getString("Name"));
-        orderItem.setTotalPrice(res.getDouble("Rating"));
+        orderItem.setTotalPrice(res.getDouble("TotalPrice")); // Ensure this is correct
 
         return orderItem;
     }

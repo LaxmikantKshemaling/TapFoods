@@ -13,131 +13,149 @@ import com.tap.util.DBConnectionUtil;
 
 public class RestaurantDAOImple implements RestaurantDAO {
 
-	@Override
-	public void addRestaurant(Restaurant restaurant) {
+    @Override
+    public void addRestaurant(Restaurant restaurant) {
+        String sql = "INSERT INTO `restaurant` (`restaurantName`, `imagePath`, `rating`, `deliveryTime`, `cuisineType`, `Address`, `isActive`, `restaurantAdmin`) VALUES (?,?,?,?,?,?,?,?)";
 
-		String sql = "INSERT INTO `restaurant` (`restaurantId`, `name`, `imagePath`, `rating`, `deliveryTime`, `cuisineType`, `Address`, `isActive`, `restaurantAdmin`) VALUES (?,?,?,?,?,?,?,?,?)";
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-		try (Connection connection = DBConnectionUtil.getConnection();
-				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, restaurant.getRestaurantName());
+            pstmt.setString(2, restaurant.getImagePath());
+            pstmt.setDouble(3, restaurant.getRating());
+            pstmt.setInt(4, restaurant.getDeliveryTime());
+            pstmt.setString(5, restaurant.getCuisineType());
+            pstmt.setString(6, restaurant.getAddress());
+            pstmt.setBoolean(7, restaurant.isActive());
+            pstmt.setInt(8, restaurant.getRestaurantAdmin());
 
-			pstmt.setInt(1, restaurant.getRestauranId());
-			pstmt.setString(2, restaurant.getName());
-			pstmt.setString(3, restaurant.getImagePath());
-			pstmt.setDouble(4, restaurant.getRating());
-			pstmt.setInt(5, restaurant.getDeliveryTime());
-			pstmt.setString(6, restaurant.getCuisineType());
-			pstmt.setString(7, restaurant.getAddress());
-			pstmt.setBoolean(8, restaurant.isActive());
-			pstmt.setInt(9, restaurant.getRestaurantAdmin());
+            pstmt.executeUpdate();
 
-			pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with proper logging
+        }
+    }
 
-		} catch (SQLException e) {
-			e.printStackTrace(); // Replace with more robust error handling
-		}
-	}
+    @Override
+    public Restaurant getRestaurant(int restaurantId) {
+        String sql = "SELECT * FROM `restaurant` WHERE `restaurantId` = ?";
+        Restaurant restaurant = null;
 
-	@Override
-	public Restaurant getRestaurant(int restaurantId) {
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-		String sql = "SELECT * FROM `restaurant` WHERE `restaurantId` = ?";
+            pstmt.setInt(1, restaurantId);
+            try (ResultSet res = pstmt.executeQuery()) {
+                if (res.next()) {
+                    restaurant = extractRestaurantFromResultSet(res);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with proper logging
+        }
 
-		Restaurant restaurant = null;
+        return restaurant;
+    }
 
-		try (Connection connection = DBConnectionUtil.getConnection();
-				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+    @Override
+    public boolean updateRestaurant(Restaurant restaurant) {
+        String sql = "UPDATE `restaurant` SET `restaurantName` = ?, `imagePath` = ?, `rating` = ?, `deliveryTime` = ?, `cuisineType` = ?, `Address` = ?, `isActive` = ?, `restaurantAdmin` = ? WHERE `restaurantId` = ?";
 
-			pstmt.setInt(1, restaurantId);
-			try (ResultSet res = pstmt.executeQuery()) {
-				if (res.next()) {
-					restaurant = extractRestaurantFromResultSet(res);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace(); // Replace with more robust error handling
-		}
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-		return restaurant;
-	}
+            pstmt.setString(1, restaurant.getRestaurantName());
+            pstmt.setString(2, restaurant.getImagePath());
+            pstmt.setDouble(3, restaurant.getRating());
+            pstmt.setInt(4, restaurant.getDeliveryTime());
+            pstmt.setString(5, restaurant.getCuisineType());
+            pstmt.setString(6, restaurant.getAddress());
+            pstmt.setBoolean(7, restaurant.isActive());
+            pstmt.setInt(8, restaurant.getRestaurantAdmin());
+            pstmt.setInt(9, restaurant.getRestauranId());
+            
 
-	@Override
-	public void updateRestaurant(Restaurant restaurant) {
+            int affectedRows = pstmt.executeUpdate();
 
-		String sql = "UPDATE `restaurant` SET `name` = ?, `imagePath` = ?, `rating` = ?, `deliveryTime` = ?, `cuisineType` = ?, `Address` = ?, `isActive` = ?, `restaurantAdmin` = ? WHERE `restaurantId` = ?";
+            return affectedRows > 0; // Return true if update was successful
 
-		try (Connection connection = DBConnectionUtil.getConnection();
-				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with proper logging
+            return false; // Return false if update failed
+        }
+    }
 
-			pstmt.setString(1, restaurant.getName());
-			pstmt.setString(2, restaurant.getImagePath());
-			pstmt.setDouble(3, restaurant.getRating());
-			pstmt.setInt(4, restaurant.getDeliveryTime());
-			pstmt.setString(5, restaurant.getCuisineType());
-			pstmt.setString(6, restaurant.getAddress());
-			pstmt.setBoolean(7, restaurant.isActive());
-			pstmt.setInt(8, restaurant.getRestaurantAdmin());
-			pstmt.setInt(9, restaurant.getRestauranId());
+    @Override
+    public void deleteRestaurant(int restaurantId) {
+        String sql = "DELETE FROM `restaurant` WHERE `restaurantId` = ?";
 
-			pstmt.executeUpdate();
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-		} catch (SQLException e) {
-			e.printStackTrace(); // Replace with more robust error handling
-		}
-	}
+            pstmt.setInt(1, restaurantId);
+            pstmt.executeUpdate();
 
-	@Override
-	public void deleteRestaurant(int restaurantId) {
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with proper logging
+        }
+    }
 
-		String sql = "DELETE FROM `restaurant` WHERE `restaurantId` = ?";
+    @Override
+    public List<Restaurant> getAllRestaurants() {
+        String sql = "SELECT * FROM `restaurant`";
+        List<Restaurant> restaurants = new ArrayList<>();
 
-		try (Connection connection = DBConnectionUtil.getConnection();
-				PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql);
+             ResultSet res = pstmt.executeQuery()) {
 
-			pstmt.setInt(1, restaurantId);
-			pstmt.executeUpdate();
+            while (res.next()) {
+                Restaurant restaurant = extractRestaurantFromResultSet(res);
+                restaurants.add(restaurant);
+            }
 
-		} catch (SQLException e) {
-			e.printStackTrace(); // Replace with more robust error handling
-		}
-	}
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with proper logging
+        }
 
-	@Override
-	public List<Restaurant> getAllRestaurants() {
+        return restaurants;
+    }
 
-		String sql = "SELECT * FROM `restaurant`";
+    @Override
+    public List<Restaurant> searchRestaurantsByrestaurantName(String restaurantName) {
+        String sql = "SELECT * FROM `restaurant` WHERE `restaurantName` LIKE ?";
+        List<Restaurant> restaurants = new ArrayList<>();
 
-		List<Restaurant> restaurants = new ArrayList<>();
+        try (Connection connection = DBConnectionUtil.getConnection();
+             PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
-		try (Connection connection = DBConnectionUtil.getConnection();
-				PreparedStatement pstmt = connection.prepareStatement(sql);
-				ResultSet res = pstmt.executeQuery()) {
+            pstmt.setString(1, "%" + restaurantName + "%"); // Use '%' to match any characters before and after the search term
+            try (ResultSet res = pstmt.executeQuery()) {
+                while (res.next()) {
+                    Restaurant restaurant = extractRestaurantFromResultSet(res);
+                    restaurants.add(restaurant);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Replace with proper logging
+        }
 
-			while (res.next()) {
-				Restaurant restaurant = extractRestaurantFromResultSet(res);
-				restaurants.add(restaurant);
-			}
+        return restaurants;
+    }
 
-		} catch (SQLException e) {
-			e.printStackTrace(); // Replace with more robust error handling
-		}
+    private Restaurant extractRestaurantFromResultSet(ResultSet res) throws SQLException {
+        Restaurant restaurant = new Restaurant();
 
-		return restaurants;
-	}
+        restaurant.setRestauranId(res.getInt("restaurantId"));
+        restaurant.setRestaurantName(res.getString("restaurantName"));
+        restaurant.setImagePath(res.getString("imagePath"));
+        restaurant.setRating(res.getDouble("rating"));
+        restaurant.setDeliveryTime(res.getInt("deliveryTime"));
+        restaurant.setCuisineType(res.getString("cuisineType"));
+        restaurant.setAddress(res.getString("Address"));
+        restaurant.setActive(res.getBoolean("isActive"));
+        restaurant.setRestaurantAdmin(res.getInt("restaurantAdmin"));
 
-	private Restaurant extractRestaurantFromResultSet(ResultSet res) throws SQLException {
-	    Restaurant restaurant = new Restaurant();
-
-	    restaurant.setRestauranId(res.getInt("restaurantId"));
-	    restaurant.setName(res.getString("name"));
-	    restaurant.setImagePath(res.getString("imagePath"));
-	    restaurant.setRating(res.getDouble("rating"));
-	    restaurant.setDeliveryTime(res.getInt("deliveryTime"));
-	    restaurant.setCuisineType(res.getString("cuisineType"));
-	    restaurant.setAddress(res.getString("Address"));
-	    restaurant.setActive(res.getBoolean("isActive"));
-	    restaurant.setRestaurantAdmin(res.getInt("RestaurantAdmin"));
-
-	    return restaurant;
-	}
+        return restaurant;
+    }
 }
