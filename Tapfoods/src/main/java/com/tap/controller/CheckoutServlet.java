@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.tap.dao.OrderHistoryDAO;
 import com.tap.dao.OrderItemDAO;
 import com.tap.dao.OrderTableDAO;
+import com.tap.daoimple.OrderHistoryDAOImple;
 import com.tap.daoimple.OrderItemDAOImple;
 import com.tap.daoimple.OrderTableDAOImple;
 import com.tap.model.Cart;
 import com.tap.model.CartItem;
 import com.tap.model.Menu;
+import com.tap.model.OrderHistory;
 import com.tap.model.OrderItem;
 import com.tap.model.OrderTable;
 import com.tap.model.User;
@@ -27,11 +30,13 @@ import com.tap.model.User;
 public class CheckoutServlet extends HttpServlet {
     private OrderTableDAO orderTableDAO;
     private OrderItemDAO orderItemDAO;
+    private OrderHistoryDAO orderHistoryDAO;
 
     @Override
     public void init() {
         orderTableDAO = new OrderTableDAOImple();
         orderItemDAO = new OrderItemDAOImple();
+        orderHistoryDAO = new OrderHistoryDAOImple(); // Fix: parentheses added
     }
 
     @Override
@@ -87,11 +92,12 @@ public class CheckoutServlet extends HttpServlet {
             // Save OrderTable and retrieve generatedOrderId
             int generatedOrderId = orderTableDAO.addOrderTable(orderTable);
             orderTable.setOrderTableId(generatedOrderId);
-            System.out.println(orderTable);
+           
 
             // Retrieve order items from the cart
             Map<Integer, CartItem> cartItems = cart.getItems();
             for (CartItem cartItem : cartItems.values()) {
+                // Create OrderItem
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrderItemId(cartItem.getItemId());
                 orderItem.setOrderTableId(generatedOrderId);
@@ -101,8 +107,23 @@ public class CheckoutServlet extends HttpServlet {
                 orderItem.setTotalPrice(cartItem.getPrice() * cartItem.getQuantity());
 
                 // Save OrderItem
-                System.out.println(orderItem);
                 orderItemDAO.addOrderItem(orderItem);
+               
+
+                // Create OrderHistory for each OrderItem
+                OrderHistory orderHistory = new OrderHistory();
+                orderHistory.setOrderHistoryId(generatedOrderId); // Can use another unique ID for history
+                orderHistory.setOrderTableId(generatedOrderId);
+                orderHistory.setUserId(user.getUserId());
+                orderHistory.setRestaurantId(orderTable.getRestaurantId());
+                orderHistory.setOrderItemId(orderItem.getOrderItemId()); // Set the order item ID
+                orderHistory.setOrderDate(new java.sql.Date(new Date().getTime()));
+                orderHistory.setPhoneNo(phoneNo);
+                orderHistory.setTotalAmount(totalAmount);
+
+                // Save to the database
+                orderHistoryDAO.addOrderHistory(orderHistory); // Fix: direct save to the database
+               
             }
 
             // Clear the cart after saving the order
@@ -117,6 +138,3 @@ public class CheckoutServlet extends HttpServlet {
         }
     }
 }
-
-
-

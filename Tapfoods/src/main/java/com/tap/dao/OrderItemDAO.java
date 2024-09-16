@@ -15,5 +15,6 @@ public interface OrderItemDAO {
 	void updateOrderItem(OrderItem orderItem);
 	void deleteOrderItem(int orderItemId);
 	List<OrderItem> getAllOrderItemsByOrderTable(int orderTableId);
+	List<OrderItem> getAllOrderItems();  
 
 }

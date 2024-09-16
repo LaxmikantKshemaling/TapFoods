@@ -1,5 +1,5 @@
-<%@ page import="java.util.List"%>
-<%@ page import="com.tap.model.OrderItem"%>
+<%@ page import="java.util.List" %>
+<%@ page import="com.tap.model.OrderItem" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,21 +108,12 @@
     <!-- Top Bar Layout -->
     <div class="top-bar">
         <div class="left-section">
-             <img src="WhatsApp Image 2024-03-15 at 2.11.19 PM.jpeg" alt="Logo" class="logo" style="width: 40px;">
-            
+            <img src="WhatsApp Image 2024-03-15 at 2.11.19 PM.jpeg" alt="Logo" class="logo" style="width: 40px;">
         </div>
 
         <!-- Title Section -->
         <div class="title-section">
             Order Items
-        </div>
-
-        <!-- Right Section for Search Form -->
-        <div class="right-section">
-            <form action="OrderItem" method="get">
-            <input type="text" class="form-control" name="orderId" placeholder="Search by Order ID">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </form>
         </div>
     </div>
 
@@ -134,7 +125,6 @@
                     <tr>
                         <th>Order Item ID</th>
                         <th>Order Table ID</th>
-                        <th>Menu ID</th>
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>Name</th>
@@ -150,7 +140,6 @@
                     <tr>
                         <td><%= orderItem.getOrderItemId() %></td>
                         <td><%= orderItem.getOrderTableId() %></td>
-                        <td><%= orderItem.getMenuId() %></td>
                         <td><%= orderItem.getQuantity() %></td>
                         <td><%= orderItem.getPrice() %></td>
                         <td><%= orderItem.getName() %></td>

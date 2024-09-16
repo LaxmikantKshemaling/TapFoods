@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List, com.tap.model.Restaurant" %>
@@ -485,70 +486,6 @@
 </div>
 <br>
 <br>
-<div class="itemmenu-heading">
-    <h3>&nbsp;&nbsp;&nbsp;&nbsp;What's on your mind?</h3>
-    <div class="direction-buttons">
-        <a id="scroll-left" class="btn btn-link"><i class="fa fa-angle-left"></i></a>
-        <a id="scroll-right" class="btn btn-link"><i class="fa fa-angle-right"></i></a>
-    </div>
-</div>
-<%
- String category =request.getParameter("category");
-%>
-<div class="itemmenu-container">
-    <div class="itemmenu-bar">
-        <div class="scroll-wrapper">
-            <!-- Biryani -->
-            <div class="item" data-category="biryani">
-                <a href="menu?category=biryani" id="biryani-link">
-                    <img src="Biryani_123.avif" alt="Biryani" class="img">
-                </a>
-            </div>
-            <!-- Ice Cream -->
-            <div class="item" data-category="icecream">
-                <a href="menu?category=icecream" id="icecream-link">
-                    <img src="Ice_Creams123.avif" alt="Ice Cream" class="img">
-                </a>
-            </div>
-            <!-- Pasta -->
-            <div class="item" data-category="pasta">
-                <a href="menu?category=pasta" id="pasta-link">
-                    <img src="Pasta123.avif" alt="Pasta" class="img">
-                </a>
-            </div>
-            <!-- Rolls -->
-            <div class="item" data-category="rolls">
-                <a href="menu?category=rolls" id="rolls-link">
-                    <img src="Rolls123.avif" alt="Rolls" class="img">
-                </a>
-            </div>
-            <!-- Burger (fixed link) -->
-            <div class="item" data-category="burger">
-                <a href="menu?category=burger" id="burger-link">
-                    <img src="Burger123.avif" alt="Burger" class="img" id="burger-image">
-                </a>
-            </div>
-            <!-- Cakes -->
-            <div class="item" data-category="cakes">
-                <a href="menu?category=cakes" id="cakes-link">
-                    <img src="Cakes123.avif" alt="Cakes" class="img">
-                </a>
-            </div>
-            <!-- Kebabs (fix double question mark in link) -->
-            <div class="item" data-category="kebabs">
-                <a href="menu?category=kebabs" id="kebabs-link">
-                    <img src="Kebabs123.avif" alt="Kebabs" class="img">
-                </a>
-            </div>
-            <!-- Pure Veg -->
-            <div class="item" data-category="pureveg">
-                <a href="menu?category=pureveg" id="pureveg-link">
-                    <img src="Pure_Veg123.avif" alt="Pure Veg" class="img">
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <div class="restaurant-heading">

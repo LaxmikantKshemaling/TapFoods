@@ -61,7 +61,7 @@ public class MenuDAOImple implements MenuDAO {
     }
 
     @Override
-    public void updateMenu(Menu menu) {
+    public boolean updateMenu(Menu menu) {
         String sql = "UPDATE `menu` SET `name` = ?, `price` = ?, `description` = ?, `menuImagePath` = ?, `isAvailable` = ?, `restaurantId` = ?, `rating` = ? WHERE `menuId` = ?";
         try (Connection connection = DBConnectionUtil.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -80,6 +80,7 @@ public class MenuDAOImple implements MenuDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+		return true;
     }
 
     @Override

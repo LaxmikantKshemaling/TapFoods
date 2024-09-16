@@ -97,8 +97,8 @@
        <a href="javascript:void(0);" onclick="openDashboardModal();">Dashboard</a>
 
         <a href="OrderTableServlet">My Orders</a>
-        <a href="OrderItem">My Items</a>
-        <a href="#">History</a>
+        <a href="AllOrderItems">My Items</a>
+        <a href="order-history">History</a>
     </div>
 
     <!-- Profile Modal -->
@@ -132,7 +132,6 @@
             </div>
             <div class="modal-body">
                 
-                <button type="button" class="btn btn-primary" onclick="window.location.href='deliveryBoyDashboard.jsp';">Delivery Boy</button>
                 <button type="button" class="btn btn-secondary" onclick="window.location.href='admin_home.jsp';">Restaurant Admin</button>
             </div>
         </div>

@@ -1,4 +1,3 @@
-
 package com.tap.daoimple;
 
 import java.sql.Connection;
@@ -18,7 +17,7 @@ public class UserDAOImple implements UserDAO {
 	@Override
 	public void addUser(User user) {
 
-		String sql = "INSERT INTO `user` (`userId`, `userName`, `email`, `phoneNo`, `Address`,`Password`,`role`) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO user (userId, userName, email, phoneNo, Address,Password,role) VALUES (?,?,?,?,?,?,?)";
 
 		try (Connection connection = DBConnectionUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -41,7 +40,7 @@ public class UserDAOImple implements UserDAO {
 
 	@Override
 	public User getUser(int userId) {
-		String sql = "SELECT * FROM `user` WHERE `userId` = ?";
+		String sql = "SELECT * FROM user WHERE userId = ?";
 
 		User user = null;
 
@@ -64,7 +63,7 @@ public class UserDAOImple implements UserDAO {
 	@Override
 	public void updateUser(User user) {
 
-		String sql = "UPDATE `user` SET `userName` = ?, `email` = ?, `phoneNo` = ?, `Address` = ?, `password` = ? ,`role` = ? WHERE `userID` = ?";
+		String sql = "UPDATE user SET userName = ?, email = ?, phoneNo = ?, Address = ?, password = ? ,role = ? WHERE userID = ?";
 		try (Connection connection = DBConnectionUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(sql)) {
 
@@ -87,7 +86,7 @@ public class UserDAOImple implements UserDAO {
 
 	public void deleteUser(int userId) {
 
-		String sql = "DELETE FROM `user` WHERE `userId` = ?";
+		String sql = "DELETE FROM user WHERE userId = ?";
 
 		try (Connection connection = DBConnectionUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -103,7 +102,7 @@ public class UserDAOImple implements UserDAO {
 	@Override
 	public List<User> getAllUsers() {
 
-		String sql = "SELECT * FROM `user`";
+		String sql = "SELECT * FROM user";
 
 		List<User> users = new ArrayList<>();
 
@@ -145,7 +144,7 @@ public class UserDAOImple implements UserDAO {
 
 	@Override
 	public void addUserSignup(User user) {
-	    String sql = "INSERT INTO `user` ( `userName`, `email`, `phoneNo`, `Password`) VALUES (?,?,?,?)";
+	    String sql = "INSERT INTO user ( userName, email, phoneNo, Password) VALUES (?,?,?,?)";
 
 	    try (Connection connection = DBConnectionUtil.getConnection();
 	         PreparedStatement pstmt = connection.prepareStatement(sql)) {
@@ -167,7 +166,7 @@ public class UserDAOImple implements UserDAO {
 
 	@Override
 	public User getUserByUsernameAndPassword(String username, String password) {
-	    String sql = "SELECT * FROM `user` WHERE `userName` = ? AND `password` = ?";
+	    String sql = "SELECT * FROM user WHERE userName = ? AND password = ?";
 	    User user = null;
 	    
 	    try (Connection connection = DBConnectionUtil.getConnection();

@@ -14,7 +14,7 @@ import com.tap.dao.OrderItemDAO;
 import com.tap.daoimple.OrderItemDAOImple;
 import com.tap.model.OrderItem;
 
-@WebServlet("/OrderItem")
+@WebServlet("/AllOrderItems")
 public class OrderItemServlet extends HttpServlet {
 
     private OrderItemDAO orderItemDAO;
@@ -26,28 +26,13 @@ public class OrderItemServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Fetch the orderTableId from the request
-        String orderTableIdParam = request.getParameter("orderTableId");
-        if (orderTableIdParam != null && !orderTableIdParam.isEmpty()) {
-            int orderTableId = Integer.parseInt(orderTableIdParam);
-
-            // Fetch the list of OrderItems associated with the orderTableId
-            List<OrderItem> orderItemList = orderItemDAO.getAllOrderItemsByOrderTable(orderTableId);
-
-            // Set the list in the request scope
-            request.setAttribute("orderItemList", orderItemList);
-        }
-
+        // Fetch the list of all order items
+        List<OrderItem> orderItemList = orderItemDAO.getAllOrderItems();
+        
+        // Set the list in the request scope
+        request.setAttribute("orderItemList", orderItemList);
+        
         // Forward to the OrderItem.jsp page
         RequestDispatcher dispatcher = request.getRequestDispatcher("OrderItem.jsp");
         dispatcher.forward(request, response);

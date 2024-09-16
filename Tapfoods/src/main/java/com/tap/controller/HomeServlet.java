@@ -26,18 +26,21 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            String searchQuery = request.getParameter("search");
+            List<Restaurant> restaurantList;
+            
+            if (searchQuery != null && !searchQuery.isEmpty()) {
+                restaurantList = restaurantDAO.searchRestaurantsByrestaurantName(searchQuery);
+            } else {
+                restaurantList = restaurantDAO.getAllRestaurants();
+            }
 
-        String searchQuery = request.getParameter("search"); 
-        List<Restaurant> restaurantList;
-
-        if (searchQuery != null && !searchQuery.isEmpty()) {
-            restaurantList = restaurantDAO.searchRestaurantsByrestaurantName(searchQuery);
-        } else {
-            restaurantList = restaurantDAO.getAllRestaurants();
+            request.setAttribute("restaurantList", restaurantList);
+        } catch (Exception e) {
+            request.setAttribute("error", "Failed to load restaurants. Please try again.");
         }
-
-        request.setAttribute("restaurantList", restaurantList);
-
+        
         RequestDispatcher dispatcher = request.getRequestDispatcher("home.jsp");
         dispatcher.forward(request, response);
     }

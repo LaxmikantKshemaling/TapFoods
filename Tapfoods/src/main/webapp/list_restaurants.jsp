@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%@ page import="java.util.List, com.tap.model.Restaurant" %>
+<%@ page import="java.net.URLEncoder" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -70,7 +71,7 @@
         border-radius: 5px;
         transition: background-color 0.3s;
         font-size: 14px;
-        margin: 2px; /* Added margin for spacing between buttons */
+        margin: 2px;
     }
     .update-btn {
         background-color: #FF4500;
@@ -126,7 +127,11 @@
                     <tr>
                         <td><%= restaurant.getRestauranId() %></td>
                         <td><%= restaurant.getRestaurantName() %></td>
-                        <td><img src="<%= request.getContextPath() + restaurant.getImagePath() %>" alt="Image"></td>
+                        <td>
+                            <a href="MenuListServlet?restaurantId=<%= restaurant.getRestauranId() %>&restaurantName=<%= URLEncoder.encode(restaurant.getRestaurantName(), "UTF-8") %>&imagePath=<%= URLEncoder.encode(restaurant.getImagePath(), "UTF-8") %>">
+                                <img src="<%= request.getContextPath() + restaurant.getImagePath() %>" alt="Image of <%= restaurant.getRestaurantName() %>">
+                            </a>
+                        </td>
                         <td><%= restaurant.getRating() %></td>
                         <td><%= restaurant.getDeliveryTime() %></td>
                         <td><%= restaurant.getCuisineType() %></td>

@@ -35,6 +35,6 @@ public class SignUPServlet extends HttpServlet {
         userDAO.addUserSignup(user);
 
         // Redirecting the user to the login page after successful registration
-        response.sendRedirect("Login.jsp");
+        response.sendRedirect("Signin.jsp");
     }
 }

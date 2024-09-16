@@ -62,7 +62,7 @@ public class UpdateRestaurantServlet extends HttpServlet {
             boolean isActive = request.getParameter("isActive") != null;
             int restaurantAdmin = Integer.parseInt(request.getParameter("restaurantAdmin"));
 
-            // Fetch the restaurant object
+            // Fetch the restaurant objec
             Restaurant restaurant = restaurantDAO.getRestaurant(restaurantId);
             
             if (restaurant != null) {
