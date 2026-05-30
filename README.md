@@ -184,7 +184,7 @@ WebContent
 
 ### Laxmikant Kshemaling
 
-Java Full Stack Developer
+Java Developer
 
 ### Connect With Me
 
